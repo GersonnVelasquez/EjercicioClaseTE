@@ -1,0 +1,17 @@
+<div>
+  <a routerLink="/home">Home</a>
+  <a routerLink="/contacto">Contacto</a>
+  <a routerLink="/historia">Historia</a>
+</div>
+<router-outlet />
+
+<button (click)="agregarPersona()">Agregar Persona</button>
+
+@for (persona of personas; track $index) {
+<div>
+  <h1>Nombre: {{ persona.nombre }}</h1>
+  <h2>Edad: {{ persona.edad }}</h2>
+  <h3>Email: {{ persona.email }}</h3>
+  <h5>Id: {{ persona.id }}</h5>
+</div>
+}
