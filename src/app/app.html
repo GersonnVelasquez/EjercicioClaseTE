@@ -5,13 +5,42 @@
 </div>
 <router-outlet />
 
-<button (click)="agregarPersona()">Agregar Persona</button>
+<form (ngSubmit)="submitForm()" [formGroup]="personaForm">
+  <label for="nombre">Nombre:</label>
+  <input formControlName="nombre" type="text" id="nombre" />
 
-@for (persona of personas; track $index) {
-<div>
-  <h1>Nombre: {{ persona.nombre }}</h1>
-  <h2>Edad: {{ persona.edad }}</h2>
-  <h3>Email: {{ persona.email }}</h3>
-  <h5>Id: {{ persona.id }}</h5>
-</div>
-}
+  @if( (personaForm.get('nombre')?.dirty || personaForm.get('nombre')?.touched) &&
+  personaForm.get('nombre')?.hasError('required') ){
+  <span>El nombre es requerido.</span>
+  }
+
+  <label for="edad">Edad:</label>
+  <input formControlName="edad" type="number" id="edad" />
+  <label for="email">Email:</label>
+  <input formControlName="email" type="email" id="email" />
+  <button type="submit">
+    @if(personaForm.get('id')?.value){ Actualizar Persona } @else { Agregar Persona }
+  </button>
+</form>
+
+<table>
+  <tr>
+    <th>Nombre</th>
+    <th>Edad</th>
+    <th>Email</th>
+    <th>Id</th>
+    <th>Actions</th>
+  </tr>
+  @for (persona of personas; track $index) {
+  <tr>
+    <td>{{ persona.nombre }}</td>
+    <td>{{ persona.edad }}</td>
+    <td>{{ persona.email }}</td>
+    <td>{{ persona.id }}</td>
+    <td>
+      <button (click)="editarPersona(persona)">Editar</button>
+      <button (click)="borrarPersona(persona.id)">Eliminar</button>
+    </td>
+  </tr>
+  }
+</table>
